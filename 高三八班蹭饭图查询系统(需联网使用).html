@@ -1,0 +1,439 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>高三八班蹭饭图查询系统</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
+        <style type="text/css">
+
+            .page-content{background:-webkit-linear-gradient(#2F5A53,#6CA199); top:352px; min-height:0;_height:0px;width:0px; }
+            *{margin: 0px;padding: 0px;}
+
+            body{
+                background: #405eca;
+                font-weight:100;
+                }
+            
+            #show{height:100%;width:100%;}
+            #show #start_show{
+                transition:ease .5s;
+                background:url("./bg.jpeg");
+                background-color:white; 
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background-position: center 0;
+                background-repeat: no-repeat;
+                background-size: cover;
+                -webkit-background-size: cover;
+                -o-background-size: cover;
+                display: block;
+                z-index: 2;
+                float:left;
+                color:white;}
+            #buffer{width:120px;height:75px;margin:10px;}
+            #show #main_show{height:100%;width:100%;display: block;float:right;}
+            .head{
+                    background: rgba(0, 181, 250, 0.91);
+    height: 52px;
+    width: 100%;
+            }
+            #icon{
+                    width: 30px;
+    height: 52px;
+    float: left;
+    margin-left: 10px;
+            }
+            .tittle{width:95%;height:45px;padding-top: 14px;text-align: center;font-size: 20px;font-family: -webkit-body;color: white;}
+            #cheak_borad{height:70%;width:100%;margin-top: 15%;}
+            #name{
+                background: white;
+                height: 45px;
+                width: 90%;
+                margin: auto;
+                position: absolute;
+                top: 10%;
+                left: 5%;
+                box-shadow: 0px 3px 10px -7px;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            #input_name{background:white;height:45px;width:70%;border: none;border-color: #12b7f5;text-align: center;float:left;color:#4d9ede;font-size:20px;}
+            #check_name{background:#12b7f5;height:45px;color: #f3f3f4;width:30%;border: none;border-radius:0px;}
+            #container{height:100%;width:100%;position:absolute;top:0;left:0;z-index:-1;}
+        </style>
+    
+    </head>
+    <body>
+        <div id="show">
+            <div id="start_show" style="top: 0%;">
+<!--                 <img src="./bg.svg" id="buffer">
+ -->            </div>
+            <div id="main_show">
+                    <div class="head">  
+                        <img src="./map.svg" id="icon">
+                        <div class="tittle">
+                                    高三八班蹭饭图查询系统
+                        </div>
+                    </div>
+                    <div id="cheak_borad">
+                        <div id="name">
+                            <input id="input_name" value="输入姓名" onclick="click_name()" onkeypress="if (event.keyCode == 13) search();" style="color: rgb(255, 81, 47);" type="text">
+                            <input onclick="search()" id="check_name" value="SEARCH" type="button">
+                        </div>
+                        <div id="container">
+                        </div>
+                    </div>
+            </div>
+        </div>
+         <script src="https://api.map.baidu.com/api?v=1.4" type="text/javascript"></script><script type="text/javascript" src="https://api.map.baidu.com/getscript?v=1.4&amp;ak=&amp;services=&amp;t=20180102095227"></script>
+        <script type="text/javascript">
+
+            setTimeout(function(){
+                document.getElementById("start_show").style.top = "120%";
+                document.getElementById("start_show").style.opacity = ".5";
+            },500);
+
+            function click_name(){
+                document.getElementById('input_name').style.color = "#4d9ede";
+                document.getElementById('input_name').value = "";
+            }
+
+
+
+
+            var map = new BMap.Map("container");          // 创建地图实例  
+            var point = new BMap.Point(115.432586,25.968617);  // 创建点坐标  
+            map.centerAndZoom(point, 17);                 // 初始化地图，设置中心点坐标和地图级别
+
+            map.addControl(new BMap.NavigationControl());  // 添加控件
+            var marker = new BMap.Marker(point);        // 创建标注    
+            map.addOverlay(marker);                     // 将标注添加到地图中
+           // map.removeOverlay(marker);                  // 移除地图标注
+
+            
+
+
+            /*********
+            window.setTimeout(function(){  
+                map.panTo(new BMap.Point(116.409, 39.918));    
+            }, 2000);
+
+            /**********/  
+            /**********/
+            function search(){
+                var name = document.getElementById('input_name').value;
+                check(name);
+            }
+            
+            var coordinate_x;
+            var coordinate_y;
+            var university;
+
+            function check(name){
+                var name_address;
+                if(coordinate(name) == 1){
+                    map.removeOverlay(marker);
+                    name_address = new BMap.Point(coordinate_x,coordinate_y);
+                    marker = new BMap.Marker(name_address);
+                    map.addOverlay(marker);
+                    map.panTo(name_address);
+                    map.centerAndZoom(name_address, 17);
+                    document.getElementById('input_name').style.color = "#ff512f";
+                    document.getElementById('input_name').value = university;
+                }
+                else{document.getElementById('input_name').value = '请输入合法姓名';}
+            }
+
+            function coordinate(name){
+                var check = 1;
+                /*******************************
+                eg：
+
+                else if(name == "姓名"){//学号（可不填）
+                                    coordinate_x = 地址坐标经度;
+                                    coordinate_y = 地址坐标纬度;
+                                    university = '大学名称';
+                    }
+
+                *******************************/
+                if(name == "谢才兴"){
+                                    coordinate_x = 115.432586;
+                                    coordinate_y = 25.968617;
+                                    university = '数学老师';
+                                    }
+                else if(name == "孙波"){
+                                    coordinate_x = 115.432586;
+                                    coordinate_y = 25.968617;
+                                    university = '英语老师';
+                                    }
+                else if(name == "严霞"){
+                                    coordinate_x = 115.432586;
+                                    coordinate_y = 25.968617;
+                                    university = '语文老师';
+                                    }
+                else if(name == "刘春华"){
+                                    coordinate_x = 115.432586;
+                                    coordinate_y = 25.968617;
+                                    university = '化学老师';
+                                    }
+                else if(name == "陈润英"){
+                                    coordinate_x = 115.432586;
+                                    coordinate_y = 25.968617;
+                                    university = '生物老师';
+                                    }
+                else if(name == "段绍柏"){
+                                    coordinate_x = 115.432586;
+                                    coordinate_y = 25.968617;
+                                    university = '物理老师';
+                                    }
+                                    /***********这里开始是同学*****************/
+                else if(name == "张堃"){//01
+                                    coordinate_x = 104.088119;
+                                    coordinate_y = 30.637545;
+                                    university = '四川大学';
+                    }
+                else if(name == "宋依晴"){//02
+                                    coordinate_x = 115.860004;
+                                    coordinate_y = 28.754844;
+                                    university = '江西财经大学';
+                    }
+                else if(name == "聂于涛"){//03
+                                    coordinate_x = 114.40623;
+                                    coordinate_y = 30.529037;
+                                    university = '中国地质大学';
+                    }
+                else if(name == "刘财浩"){//04
+                                    coordinate_x = 116.979821;
+                                    coordinate_y = 36.621013;
+                                    university = '济南大学';
+                                    }
+                else if(name == "王澳锋"){//05
+                                    coordinate_x = 106.475179;
+                                    coordinate_y = 29.571117;
+                                    university = '重庆大学';
+                                    }
+                else if(name == "王琰"){//06
+                                    coordinate_x = 118.61527;
+                                    coordinate_y = 32.069032;
+                                    university = '南京审计大学';
+                                    }
+                else if(name == "高鸿华"){//07
+                                    coordinate_x = 116.434476;
+                                    coordinate_y = 39.977288;
+                                    university = '北京中医药大学';
+                                    }
+                else if(name == "何祥东"){//08
+                                    coordinate_x = 112.935372;
+                                    coordinate_y = 28.176161;
+                                    university = '中南大学';
+                                    }
+                else if(name == "邹慧琴"){//09
+                                    coordinate_x = 114.940202;
+                                    coordinate_y = 25.865246;
+                                    university = '赣南医学院';
+                                    }
+                else if(name == "刘阳鑫"){//10
+                                    coordinate_x = 103.867064;
+                                    coordinate_y = 36.051899;
+                                    university = '兰州大学';
+                                    }
+                else if(name == "管小玲"){//11
+                                    coordinate_x = 113.262048;
+                                    coordinate_y = 23.140134;
+                                    university = '广州医科大学';
+                    }
+                else if(name == "谢婷"){//12
+                                    coordinate_x = 115.809636;
+                                    coordinate_y = 28.664933;
+                                    university = '南昌大学';
+                    }
+                else if(name == "王康"){//13
+                                    coordinate_x = 115.844781;
+                                    coordinate_y = 28.742773;
+                                    university = '江西科技师范大学';
+                                    }
+                else if(name == "曾薇"){//14
+                                    coordinate_x = 118.650876;
+                                    coordinate_y = 24.94103;
+                                    university = '华侨大学';
+                                    }
+                else if(name == "温珍珍"){//15
+                                    coordinate_x = 118.722687;
+                                    coordinate_y = 32.209502;
+                                    university = '南京信息工程大学';
+                                    }
+                else if(name == "赖俊宝"){//16
+                                    coordinate_x = 106.678933;
+                                    coordinate_y = 26.4504699;
+                                    university = '贵州大学';
+                                    }
+                else if(name == "郑鹏"){//17
+                                    coordinate_x = 115.761126;
+                                    coordinate_y = 28.684617;
+                                    university = '江西中医药大学';
+                                    }
+                else if(name == "彭志慷"){//18
+                                    coordinate_x = 120.35042;
+                                    coordinate_y = 30.318957;
+                                    university = '杭州电子科技大学';
+                                    }
+                else if(name == "曾辉"){//19
+                                    coordinate_x = 116.389019;
+                                    coordinate_y = 39.995148;
+                                    university = '北京信息科技大学大学';
+                                    }
+                else if(name == "冯自强"){//20
+                                    coordinate_x = 115.809636;
+                                    coordinate_y = 28.664933;
+                                    university = '南昌大学';
+                                    }
+                else if(name == "李嘉文"){//21
+                                    coordinate_x = 115.809636;
+                                    coordinate_y = 28.664933;
+                                    university = '南昌大学';
+                                    }
+                else if(name == "方鑫亮"){//22
+                                    coordinate_x = 119.562744;
+                                    coordinate_y = 39.929027;
+                                    university = '东北大学秦皇岛分校';
+                    }
+                else if(name == "张镇宇"){//23
+                                    coordinate_x = 106.475179;
+                                    coordinate_y = 29.571117;
+                                    university = '重庆大学';
+                    }
+                else if(name == "叶慧英"){//24
+                                    coordinate_x = 115.809636;
+                                    coordinate_y = 28.664933;
+                                    university = '南昌大学';
+                                    }
+                else if(name == "梁永鑫"){//25
+                                    coordinate_x = 118.937284;
+                                    coordinate_y = 32.119823;
+                                    university = '南京邮电大学';
+                                    }
+                else if(name == "黄天辉"){//06
+                                    coordinate_x = 115.809636;
+                                    coordinate_y = 28.664933;
+                                    university = '南昌大学';
+                                    }
+                else if(name == "邱清岚"){//27
+                                    coordinate_x = 119.403658;
+                                    coordinate_y = 32.347098;
+                                    university = '扬州大学';
+                                    }
+                else if(name == "李炜"){//28
+                                    coordinate_x = 115.876341;
+                                    coordinate_y = 28.749703;
+                                    university = '华东交通大学';
+                                    }
+                else if(name == "易庆云"){//29
+                                    coordinate_x = 104.056064;
+                                    coordinate_y = 30.645526;
+                                    university = '西南民族大学';
+                                    }
+                else if(name == "肖阳林"){//30
+                                    coordinate_x = 114.940202;
+                                    coordinate_y = 25.865246;
+                                    university = '赣南医学院';
+                                    }
+                else if(name == "刘晓豪"){//31
+                                    coordinate_x = 116.56387;
+                                    coordinate_y = 39.918054;
+                                    university = '中国传媒大学';
+                    }
+                else if(name == "肖淑英"){//32
+                                    coordinate_x = 112.499092;
+                                    coordinate_y = 37.880775;
+                                    university = '太原科技大学';
+                    }
+                else if(name == "刘莎"){//33
+                                    coordinate_x = 115.427802;
+                                    coordinate_y = 25.947241;
+                                    university = '高四';
+                    }
+                else if(name == "易俊男"){//34
+                                    coordinate_x = 115.929847;
+                                    coordinate_y = 28.68181;
+                                    university = '江西师范大学';
+                                    }
+                else if(name == "谢树林"){//35
+                                    coordinate_x = 115.876341;
+                                    coordinate_y = 28.749703;
+                                    university = '华东交通大学';
+                                    }
+                else if(name == "杜云椿"){//36
+                                    coordinate_x = 115.426802;
+                                    coordinate_y = 25.951241;
+                                    university = '高四';
+                                    }
+                else if(name == "邓慧"){//07
+                                    coordinate_x = 115.809636;
+                                    coordinate_y = 28.664933;
+                                    university = '南昌大学';
+                                    }
+                else if(name == "孙青峰"){//38
+                                    coordinate_x = 113.104781;
+                                    coordinate_y = 23.029875;
+                                    university = '佛山科学技术学院';
+                                    }
+                else if(name == "曾林林"){//39
+                                    coordinate_x = 112.598832;
+                                    coordinate_y = 26.904512;
+                                    university = '南华大学';
+                                    }
+                else if(name == "赖雨霜"){//40
+                                    coordinate_x = 123.255554;
+                                    coordinate_y = 41.742385;
+                                    university = '沈阳工业大学';
+                                    }
+                else if(name == "赖德森"){//41
+                                    coordinate_x = 115.834299;
+                                    coordinate_y = 28.655957;
+                                    university = '南昌航空大学';
+                                    }
+                else if(name == "兰阳"){//42
+                                    coordinate_x = 112.594277;
+                                    coordinate_y = 37.806874;
+                                    university = '山西大学';
+                                    }
+                else if(name == "严丽琴"){//43
+                                    coordinate_x = 104.056064;
+                                    coordinate_y = 30.645526;
+                                    university = '西南民族大学';
+                                    }
+                else if(name == "王观石"){//44
+                                    coordinate_x = 126.646749;
+                                    coordinate_y = 45.729233;
+                                    university = '东北林业大学';
+                                    }
+                else if(name == "邹坤华"){//45
+                                    coordinate_x = 121.826908;
+                                    coordinate_y = 39.107819;
+                                    university = '大连大学';
+                                    }
+                else if(name == "方钰杰"){//46
+                                    coordinate_x = 118.793354;
+                                    coordinate_y = 31.948903;
+                                    university = '南京航天航空大学';
+                                    }
+                else if(name == "李震宇"){//47
+                                    coordinate_x = 116.030235;
+                                    coordinate_y = 28.69299;
+                                    university = '南昌工程学院';
+                                    }
+                else{
+                    check = 0;
+                    }
+                return check;
+            }
+            /*********/
+        </script>    
+    
+
+	</body>
+</html>
