@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
+        <script type="text/javascript" src="./d3.min.js"></script>
         <style type="text/css">
 
             .page-content{background:-webkit-linear-gradient(#2F5A53,#6CA199); top:352px; min-height:0;_height:0px;width:0px; }
@@ -65,8 +66,8 @@
             #check_name{background:#12b7f5;height:45px;color: #f3f3f4;width:30%;border: none;border-radius:0px;}
             #container{height:100%;width:100%;position:absolute;top:0;left:0;z-index:-1;}
             .footer{
-                    height: 50px;
-                    width: 100%;
+/*                    height: 50px;
+*/                    width: 100%;
                     position: absolute;
                     background: white;
                     bottom: 0px;
@@ -91,6 +92,7 @@
                 justify-content:space-around;
             }
             .num_b{
+                transition:ease .3s;
                     display: flex;
     height: 30px;
     justify-content: center;
@@ -111,6 +113,29 @@
                         font-size: 14px;
     line-height: 30px;
     margin: 0px 10px;
+            }
+            .list_b{
+                transition:ease .5s;
+                    max-height: 0px;
+    width: 90%;
+    border-top: 1px solid #EEE;
+    overflow: scroll;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0px 5%;
+}
+            .list_b .name_handle{
+                        height: 30px;
+                    padding: 0px 25px;
+                    border-radius: 30px;
+                    background: #EEE;
+                    margin: 10px 5px;
+                    text-align: center;
+                    font-size: 16px;
+                    line-height: 30px;
+                    color: #4a4a4a;
+                    transition:ease .5s;
             }
         </style>
     
@@ -137,14 +162,21 @@
                     </div>
                     <div class="footer">
                             <div class="B" style="height:50px">
-                                <div class="num_b">
+                                <div class="num_b" params="girls">
                                     <div class="img_"></div>
                                     <div class="num">16</div>
                                 </div>
-                                <div class="num_b">
+                                <div class="num_b" params ="boys">
                                     <div class="img_" style="background-image:url(./boy.svg)"></div>
                                     <div class="num">31</div>
                                 </div>
+                                <div class="num_b" params="teachers">
+                                    <div class="img_" style="background-image:url(./teacher.svg)"></div>
+                                    <div class="num">6</div>
+                                </div>
+
+                            </div>
+                            <div class="list_b" id="list_">
                             </div>
                     </div>
             </div>
@@ -207,6 +239,23 @@
                 }
                 else{document.getElementById('input_name').value = '请输入合法姓名';}
             }
+            var boys = ["聂于涛", "刘财浩","王澳锋","高鸿华","何祥东","刘阳鑫","赖俊宝","郑鹏","彭志慷","曾辉" ,"冯自强","李嘉文","方鑫亮","张镇宇","梁永鑫","黄天辉","李炜","易庆云","肖阳林","刘晓豪","易俊男","谢树林","杜云椿","孙青峰","曾林林","赖德森","兰阳","王观石","邹坤华","方钰杰","李震宇"]
+            var girls = ["张堃","宋依晴","王琰","邹慧琴","管小玲","谢婷","王康","曾薇","温珍珍","叶慧英","邱清岚","肖淑英","刘莎","邓慧","赖雨霜","严丽琴"]
+            var teachers=["谢才兴","孙波","严霞","刘春华", "陈润英", "段绍柏"];
+            var lists = {"boys":boys, "girls":girls, "teachers":teachers}
+            d3.selectAll(".num_b").on("click",function(){
+                    d3.selectAll(".num_b").style("padding","0px 20px").style("background-color","#EEE");
+                    d3.select(this).style("padding","0px 50px").style("background-color","#ccc");
+                    let index = this.getAttribute("params")
+                    console.log(index)
+                    d3.select("#list_").html("");
+                    d3.select("#list_").style("max-height", "200px");
+                    d3.select("#list_").selectAll("list_").data(lists[index]).enter().append("div").attr("class", "name_handle").text(function(d){return d}).on("click",function(d){
+                        d3.select("#list_").selectAll("div").style("background-color","#EEE");
+                        d3.select(this).style("background-color", "#ccc");
+                            check(d);
+                    })
+            })
 
             function coordinate(name){
                 var check = 1;
