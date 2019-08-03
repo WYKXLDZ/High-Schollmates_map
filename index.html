@@ -55,7 +55,7 @@
                 width: 90%;
                 margin: auto;
                 position: absolute;
-                top: 10%;
+                top: 80px;
                 left: 5%;
                 box-shadow: 0px 3px 10px -7px;
                 border-radius: 10px;
@@ -64,6 +64,54 @@
             #input_name{background:white;height:45px;width:70%;border: none;border-color: #12b7f5;text-align: center;float:left;color:#4d9ede;font-size:20px;}
             #check_name{background:#12b7f5;height:45px;color: #f3f3f4;width:30%;border: none;border-radius:0px;}
             #container{height:100%;width:100%;position:absolute;top:0;left:0;z-index:-1;}
+            .footer{
+                    height: 50px;
+                    width: 100%;
+                    position: absolute;
+                    background: white;
+                    bottom: 0px;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                    box-shadow: 0px 0px 10px -4px;
+                    padding-top: 15px;
+            }
+            .footer:before{
+                content:"";
+                    height: 5px;
+    width: 50px;
+    background: #d0d0d0;
+    position: absolute;
+    border-radius: 10px;
+    top: 5px;
+    left: calc((100% - 50px)/2);
+            }
+            .B{
+                width:100%;
+                display: flex;
+                justify-content:space-around;
+            }
+            .num_b{
+                    display: flex;
+    height: 30px;
+    justify-content: center;
+    background: #EEE;
+    padding: 0px 20px;
+    border-radius: 30px;
+    margin-top: 10px;
+            }
+            .num_b .img_{
+                      height: 30px;
+    width: 30px;
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(./girl.svg);
+            }
+            .num_b .num{
+                        font-size: 14px;
+    line-height: 30px;
+    margin: 0px 10px;
+            }
         </style>
     
     </head>
@@ -87,6 +135,18 @@
                         <div id="container">
                         </div>
                     </div>
+                    <div class="footer">
+                            <div class="B" style="height:50px">
+                                <div class="num_b">
+                                    <div class="img_"></div>
+                                    <div class="num">16</div>
+                                </div>
+                                <div class="num_b">
+                                    <div class="img_" style="background-image:url(./boy.svg)"></div>
+                                    <div class="num">31</div>
+                                </div>
+                            </div>
+                    </div>
             </div>
         </div>
          <script src="https://api.map.baidu.com/api?v=1.4" type="text/javascript"></script><script type="text/javascript" src="https://api.map.baidu.com/getscript?v=1.4&amp;ak=&amp;services=&amp;t=20180102095227"></script>
@@ -109,7 +169,7 @@
             var point = new BMap.Point(115.432586,25.968617);  // 创建点坐标  
             map.centerAndZoom(point, 17);                 // 初始化地图，设置中心点坐标和地图级别
 
-            map.addControl(new BMap.NavigationControl());  // 添加控件
+            // map.addControl(new BMap.NavigationControl());  // 添加控件
             var marker = new BMap.Marker(point);        // 创建标注    
             map.addOverlay(marker);                     // 将标注添加到地图中
            // map.removeOverlay(marker);                  // 移除地图标注
