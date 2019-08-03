@@ -154,7 +154,7 @@
                     </div>
                     <div id="cheak_borad">
                         <div id="name">
-                            <input id="input_name" value="输入姓名" onclick="click_name()" onkeypress="if (event.keyCode == 13) search();" style="color: rgb(255, 81, 47);" type="text">
+                            <input id="input_name" value="输入姓名" onclick="click_name()" onkeypress="if (event.keyCode == 13) search();"  type="text">
                             <input onclick="search()" id="check_name" value="SEARCH" type="button">
                         </div>
                         <div id="container">
@@ -190,6 +190,7 @@
             },1500);
 
             function click_name(){
+                                    d3.select("#list_").style("max-height", "0px");
                 document.getElementById('input_name').style.color = "#4d9ede";
                 document.getElementById('input_name').value = "";
             }
@@ -256,6 +257,7 @@
                             check(d);
                     })
             })
+
 
             function coordinate(name){
                 var check = 1;
